@@ -88,19 +88,25 @@ public class GameField extends JPanel {
 		}
 	}
 	
+	/**
+	 * Отрисовывает графические компоненты игры
+	 */
 	public void paintComponent(Graphics gr){
 		super.paintComponent(gr);
 		
-		gr.drawImage(bckgrnd, 0, 0, 800, 600, null);
+		// отрисовываем фон
+		gr.drawImage(bckgrnd, 0, 0, 800, 650, null);
 		
 		for(int i=0; i < game.DEFAULT_HEIGHT; i++){		// height = строка
 			for(int j = 0; j< game.DEFAULT_WIDTH; j++){	// width = столбец
 				
 				if(game.getValue(j, i) != 0){
 					if(game.getValue(j, i) == 1){
+						// рисуем голову
 						gr.drawImage(head, 10+j*20, 10+i*20, 20, 20, null);
 					}
 					else if(game.getValue(j, i) == -1){
+						// рисуем еду
 						gr.drawImage(feed, 10+j*20, 10+i*20, 20, 20, null);
 					}
 				}				
@@ -108,6 +114,7 @@ public class GameField extends JPanel {
 		}
 		gr.setColor(Color.BLUE);
 		for(int i=0; i<=game.DEFAULT_WIDTH; i++){
+			// этим циклом рисуем сетку на игровом поле
 			gr.drawLine(10+i*20, 10, 10+i*20, 610);
 			gr.drawLine(10, 10+i*20, 610, 10+i*20);
 		}
