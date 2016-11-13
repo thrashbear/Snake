@@ -1,4 +1,4 @@
-package ru.progclub.snake;
+п»їpackage ru.progclub.snake;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -7,25 +7,25 @@ import java.awt.event.*;
 import java.io.*;
 
 public class GameField extends JPanel {
-	private GameLogic game;	// игровая логика
+	private GameLogic game;	// РёРіСЂРѕРІР°СЏ Р»РѕРіРёРєР°
 	
-	private Timer tmDraw;	// таймер отрисовки 
+	private Timer tmDraw;	// С‚Р°Р№РјРµСЂ РѕС‚СЂРёСЃРѕРІРєРё 
 	
-	private Image bckgrnd, body, head, feed, gameOver;	// спрайты
+	private Image bckgrnd, body, head, feed, gameOver;	// СЃРїСЂР°Р№С‚С‹
 	
-	private JLabel lbScore;	// метка с заработанными очками
+	private JLabel lbScore;	// РјРµС‚РєР° СЃ Р·Р°СЂР°Р±РѕС‚Р°РЅРЅС‹РјРё РѕС‡РєР°РјРё
 	
-	private JButton btnNew, btnExit;	// кнопки начала новой игры и выхода
+	private JButton btnNew, btnExit;	// РєРЅРѕРїРєРё РЅР°С‡Р°Р»Р° РЅРѕРІРѕР№ РёРіСЂС‹ Рё РІС‹С…РѕРґР°
 	
 	public GameField(){
-		loadResources();	// загружаем спрайты и иные ресурсы
+		loadResources();	// Р·Р°РіСЂСѓР¶Р°РµРј СЃРїСЂР°Р№С‚С‹ Рё РёРЅС‹Рµ СЂРµСЃСѓСЂСЃС‹
 		
-		// инициализируем переменную game и запускаем игровую логику		
+		// РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РїРµСЂРµРјРµРЅРЅСѓСЋ game Рё Р·Р°РїСѓСЃРєР°РµРј РёРіСЂРѕРІСѓСЋ Р»РѕРіРёРєСѓ		
 		game = new GameLogic();
 		game.start();
 		
 		
-		//создаем и запускаем таймер отрисовки
+		//СЃРѕР·РґР°РµРј Рё Р·Р°РїСѓСЃРєР°РµРј С‚Р°Р№РјРµСЂ РѕС‚СЂРёСЃРѕРІРєРё
 		tmDraw = new Timer(20, new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				repaint();
@@ -36,33 +36,33 @@ public class GameField extends JPanel {
 		setLayout(null);
 		
 		
-		// создаем надпись с очками
-		lbScore = new JLabel("Счет: -");	// инициализируем и заполняем начальное значение
-		lbScore.setForeground(Color.WHITE);	// устанавливаем фон
-		lbScore.setFont(new Font("serif", 0, 30));	// шрифт
-		lbScore.setBounds(630, 200, 150, 50);	// куда расположится и размер
-		add(lbScore); // добавляем надпись к полотну
+		// СЃРѕР·РґР°РµРј РЅР°РґРїРёСЃСЊ СЃ РѕС‡РєР°РјРё
+		lbScore = new JLabel("РЎС‡РµС‚: -");	// РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј Рё Р·Р°РїРѕР»РЅСЏРµРј РЅР°С‡Р°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
+		lbScore.setForeground(Color.WHITE);	// СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј С„РѕРЅ
+		lbScore.setFont(new Font("serif", 0, 30));	// С€СЂРёС„С‚
+		lbScore.setBounds(630, 200, 150, 50);	// РєСѓРґР° СЂР°СЃРїРѕР»РѕР¶РёС‚СЃСЏ Рё СЂР°Р·РјРµСЂ
+		add(lbScore); // РґРѕР±Р°РІР»СЏРµРј РЅР°РґРїРёСЃСЊ Рє РїРѕР»РѕС‚РЅСѓ
 		
 		
-		// кнопка новой игры
-		btnNew = new JButton();			// инициализируем
-		btnNew.setText("New Game");		// задаем текст кнопки
-		btnNew.setForeground(Color.BLUE);	// цвет
-		btnNew.setFont(new Font("serif", 0, 20));	// шрифт
-		btnNew.setBounds(630, 30, 150, 50);			// где находится и размер
-		btnNew.addActionListener(new ActionListener() { // навешиваем АЛ
+		// РєРЅРѕРїРєР° РЅРѕРІРѕР№ РёРіСЂС‹
+		btnNew = new JButton();			// РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј
+		btnNew.setText("New Game");		// Р·Р°РґР°РµРј С‚РµРєСЃС‚ РєРЅРѕРїРєРё
+		btnNew.setForeground(Color.BLUE);	// С†РІРµС‚
+		btnNew.setFont(new Font("serif", 0, 20));	// С€СЂРёС„С‚
+		btnNew.setBounds(630, 30, 150, 50);			// РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ Рё СЂР°Р·РјРµСЂ
+		btnNew.addActionListener(new ActionListener() { // РЅР°РІРµС€РёРІР°РµРј РђР›
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				game.start();	// который запускает игру
+				game.start();	// РєРѕС‚РѕСЂС‹Р№ Р·Р°РїСѓСЃРєР°РµС‚ РёРіСЂСѓ
 			}	
 			
 		});
-		add(btnNew);	// добавляем кнопку в полотно
+		add(btnNew);	// РґРѕР±Р°РІР»СЏРµРј РєРЅРѕРїРєСѓ РІ РїРѕР»РѕС‚РЅРѕ
 		
 		
-		// кнопка выхода
+		// РєРЅРѕРїРєР° РІС‹С…РѕРґР°
 		btnExit = new JButton();
 		
 		
@@ -73,11 +73,11 @@ public class GameField extends JPanel {
 	}
 	
 	/**
-	 * Загружает необходимые для игры ресурсы
+	 * Р—Р°РіСЂСѓР¶Р°РµС‚ РЅРµРѕР±С…РѕРґРёРјС‹Рµ РґР»СЏ РёРіСЂС‹ СЂРµСЃСѓСЂСЃС‹
 	 */
 	private void loadResources(){
 		try{
-			// загружаем в память спрайты
+			// Р·Р°РіСЂСѓР¶Р°РµРј РІ РїР°РјСЏС‚СЊ СЃРїСЂР°Р№С‚С‹
 			this.bckgrnd = ImageIO.read(new File("sprites\\bg.png"));
 			this.body = ImageIO.read(new File("sprites\\body.png"));
 			this.head = ImageIO.read(new File("sprites\\head.png"));
@@ -93,8 +93,8 @@ public class GameField extends JPanel {
 		
 		gr.drawImage(bckgrnd, 0, 0, 800, 600, null);
 		
-		for(int i=0; i < game.DEFAULT_HEIGHT; i++){		// height = строка
-			for(int j = 0; j< game.DEFAULT_WIDTH; j++){	// width = столбец
+		for(int i=0; i < game.DEFAULT_HEIGHT; i++){		// height = СЃС‚СЂРѕРєР°
+			for(int j = 0; j< game.DEFAULT_WIDTH; j++){	// width = СЃС‚РѕР»Р±РµС†
 				
 				if(game.getValue(j, i) != 0){
 					if(game.getValue(j, i) == 1){

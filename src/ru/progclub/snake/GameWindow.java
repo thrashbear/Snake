@@ -1,26 +1,26 @@
-package ru.progclub.snake;
+п»їpackage ru.progclub.snake;
 
 import javax.swing.JFrame;
 
 public class GameWindow extends JFrame {
 	
 	/**
-	 * Конструктор окна по умолчанию
+	 * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РѕРєРЅР° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	 */
 	public GameWindow(){
-		// создаем игровое поле
+		// СЃРѕР·РґР°РµРј РёРіСЂРѕРІРѕРµ РїРѕР»Рµ
 		GameField fld = new GameField();
-		getContentPane().add(fld);	// добавляем поле в текущее окно
+		getContentPane().add(fld);	// РґРѕР±Р°РІР»СЏРµРј РїРѕР»Рµ РІ С‚РµРєСѓС‰РµРµ РѕРєРЅРѕ
 		
-		setTitle("Змейка");			// ставим заголовок
+		setTitle("Р—РјРµР№РєР°");			// СЃС‚Р°РІРёРј Р·Р°РіРѕР»РѕРІРѕРє
 		
-		setBounds(0,0,800,650);		// устанавливаем положение окна и его размеры
+		setBounds(0,0,800,650);		// СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕР»РѕР¶РµРЅРёРµ РѕРєРЅР° Рё РµРіРѕ СЂР°Р·РјРµСЂС‹
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	// закрыть приложение при закрытии окна
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	// Р·Р°РєСЂС‹С‚СЊ РїСЂРёР»РѕР¶РµРЅРёРµ РїСЂРё Р·Р°РєСЂС‹С‚РёРё РѕРєРЅР°
 		
-		setResizable(false);	// запретить изменять размер окна
+		setResizable(false);	// Р·Р°РїСЂРµС‚РёС‚СЊ РёР·РјРµРЅСЏС‚СЊ СЂР°Р·РјРµСЂ РѕРєРЅР°
 		
-		setVisible(true);		// показать текущее окно
+		setVisible(true);		// РїРѕРєР°Р·Р°С‚СЊ С‚РµРєСѓС‰РµРµ РѕРєРЅРѕ
 	}
 	
 }
