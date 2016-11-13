@@ -4,6 +4,11 @@ public class GameLogic {
 	public static final int DEFAULT_WIDTH = 30;	// стандартная ширина поля
 	public static final int DEFAULT_HEIGHT = 30;	// стандартная высота поля
 	
+	private int direction;	// направление движения головы 0-л; 1-в; 2-п;3-н
+	
+	private int gX, gY;	// координаты головы
+	
+	private int score;	// количество очков
 	
 	private int[][] field;	// массив, по которому перемещается наша змейка
 	
@@ -41,11 +46,48 @@ public class GameLogic {
 	}
 	
 	public void start(){
-		this.clear();
+		this.clear();		// очищаем игровое поле
 		
-		field[DEFAULT_WIDTH/2][DEFAULT_HEIGHT/2] = 1;
+		this.direction=0;	// устанавливаем направление движения влево
 		
-		generateFeed();
+		this.score = 0;		// обнуляем счет
+		
+		this.gX = this.gY = 15;	// ставим координату головы
+		
+		this.field[15][15] = 1;	// спавним голову
+		
+		generateFeed();	// создаем еду
+		
+	}
+	
+	/**
+	 * Перемещает голову змейки по игровому полю
+	 */
+	public void moveHead(){
+		this.field[gX][gY] = 0;	// сразу 
+		
+		
+		switch(direction){
+			case 0:
+				gX = gX-1 >= 0 ? gX-1 : 29;
+				break;
+			case 1:
+				gY = gY-1 >= 0 ? gY-1 : 29;
+				break;
+			case 2:
+				gX = gX+1 <= 29 ? gX+1 : 0;
+				break;
+			case 3:
+				gY = gY+1 <= 29 ? gY+1 : 0;
+				break;
+		}
+		
+		if(field[gY][gX]==-1){
+			generateFeed();
+			score+=10;
+		}
+		
+		field[gY][gX] = 1;
 		
 	}
 	
