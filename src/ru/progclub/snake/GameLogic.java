@@ -20,15 +20,6 @@ public class GameLogic {
 	}
 	
 	/**
-	 * Коструктор, создающей поле указанной ширины и высоты
-	 * @param width ширина поля
-	 * @param height высота поля
-	 */
-	public GameLogic(int width, int height){
-		field = new int[width>0 ? width : DEFAULT_WIDTH][height>0 ? height : DEFAULT_HEIGHT];
-	}
-	
-	/**
 	 * Генерирует пищу для змейки
 	 */
 	private void generateFeed(){
@@ -114,5 +105,21 @@ public class GameLogic {
 	 */
 	public int getValue(int col, int row){
 		return this.field[col][row];
+	}
+	
+	/**
+	 * Устанавливает направление движения
+	 * @param dir
+	 */
+	public void setDirection(int dir){
+		direction = dir>=0 && dir<=3 ? dir : direction;
+	}
+	
+	/**
+	 * Возвращает количество набранных очков
+	 * @return
+	 */
+	public int getScore(){
+		return this.score;
 	}
 }

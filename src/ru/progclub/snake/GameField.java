@@ -7,9 +7,10 @@ import java.awt.event.*;
 import java.io.*;
 
 public class GameField extends JPanel {
+	private GameField gFld;
 	private GameLogic game;	// игровая логика
 	
-	private Timer tmDraw;	// таймер отрисовки 
+	private Timer tmDraw, tmUpdate;	// таймер отрисовки и обновления экрана
 	
 	private Image bckgrnd, body, head, feed, gameOver;	// спрайты
 	
@@ -17,12 +18,46 @@ public class GameField extends JPanel {
 	
 	private JButton btnNew, btnExit;	// кнопки начала новой игры и выхода
 	
+	
+	private class myKeyLs implements KeyListener{
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+			switch(e.getKeyCode()){
+			case KeyEvent.VK_LEFT:
+				game.setDirection(1);
+				break;
+			case KeyEvent.VK_UP:
+				game.setDirection(0);
+				break;
+			case KeyEvent.VK_RIGHT:
+				game.setDirection(3);
+				break;
+			case KeyEvent.VK_DOWN:
+				game.setDirection(2);
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {}
+
+		@Override
+		public void keyTyped(KeyEvent e) {}		
+	}	
+	
+	
 	public GameField(){
-		loadResources();	// загружаем спрайты и иные ресурсы
+		loadResources(); // загружаем спрайты и иные ресурсы
 		
 		// инициализируем переменную game и запускаем игровую логику		
 		game = new GameLogic();
 		game.start();
+		
+		// добавляем наш обработчик клавиатуры
+		this.addKeyListener(new myKeyLs());
+		this.setFocusable(true);
 		
 		
 		//создаем и запускаем таймер отрисовки
@@ -33,15 +68,29 @@ public class GameField extends JPanel {
 		});
 		tmDraw.start();
 		
+		// создаем надпись с очками
+				lbScore = new JLabel("Счет: -");	// инициализируем и заполняем начальное значение
+				lbScore.setForeground(Color.WHITE);	// устанавливаем фон
+				lbScore.setFont(new Font("serif", 0, 30));	// шрифт
+				lbScore.setBounds(630, 200, 150, 50);	// куда расположится и размер
+				add(lbScore); // добавляем надпись к полотну
+		
+		tmUpdate = new Timer(100, new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				game.moveHead();
+				lbScore.setText("Счет: "+game.getScore());
+			}
+			
+		});
+		tmUpdate.start();
+		
 		setLayout(null);
 		
 		
-		// создаем надпись с очками
-		lbScore = new JLabel("Счет: -");	// инициализируем и заполняем начальное значение
-		lbScore.setForeground(Color.WHITE);	// устанавливаем фон
-		lbScore.setFont(new Font("serif", 0, 30));	// шрифт
-		lbScore.setBounds(630, 200, 150, 50);	// куда расположится и размер
-		add(lbScore); // добавляем надпись к полотну
+		gFld = this;
 		
 		
 		// кнопка новой игры
@@ -56,6 +105,10 @@ public class GameField extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				game.start();	// который запускает игру
+				
+				btnNew.setFocusable(false);
+				btnExit.setFocusable(false);
+				gFld.setFocusable(true);
 			}	
 			
 		});
@@ -64,6 +117,20 @@ public class GameField extends JPanel {
 		
 		// кнопка выхода
 		btnExit = new JButton();
+		btnExit.setText("Выход");
+		btnExit.setForeground(Color.RED);
+		btnExit.setFont(new Font("serif", 0, 20));
+		btnExit.setBounds(630, 100, 150, 50);
+		btnExit.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}
+			
+		});
+		this.add(btnExit);
 		
 		
 		
