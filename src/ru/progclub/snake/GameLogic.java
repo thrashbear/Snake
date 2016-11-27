@@ -4,11 +4,15 @@ public class GameLogic {
 	public static final int DEFAULT_WIDTH = 30;	// стандартная ширина поля
 	public static final int DEFAULT_HEIGHT = 30;	// стандартная высота поля
 	
-	private int direction;	// направление движения головы 0-л; 1-в; 2-п;3-н
+	public boolean endGame;
+	
+	private int direction, newDirection;	// направление движения головы 0-л; 1-в; 2-п;3-н
 	
 	private int gX, gY;	// координаты головы
 	
 	private int score;	// количество очков
+	
+	private int length;
 	
 	private int[][] field;	// массив, по которому перемещается наша змейка
 	
@@ -17,6 +21,12 @@ public class GameLogic {
 	 */
 	public GameLogic(){
 		field = new int[DEFAULT_WIDTH][DEFAULT_HEIGHT];	// создаем стандартное поле
+	}
+	
+	private void turn(){
+		if(Math.abs((newDirection-direction))!=2){
+			direction = newDirection;
+		}
 	}
 	
 	/**
@@ -29,35 +39,69 @@ public class GameLogic {
 			x=(int)(Math.random()*DEFAULT_WIDTH);	// рандомим х в пределах 0-30
 			y=(int)(Math.random()*DEFAULT_HEIGHT);	// рандомим у в пределах 0-30
 			
-			if(field[y][x] == 0){	// если ячейка пуста
-				field[y][x] = -1;	// ставим в нее еду
+			if(field[x][y] == 0){	// если ячейка пуста
+				field[x][y] = -1;	// ставим в нее еду
 				break;				// и ломаем цикл
 			}
 		}
 	}
 	
 	public void start(){
+		
 		this.clear();		// очищаем игровое поле
 		
-		this.direction=0;	// устанавливаем направление движения влево
+		
+		
+		this.direction=1;	// устанавливаем направление движения влево
 		
 		this.score = 0;		// обнуляем счет
 		
-		this.gX = this.gY = 15;	// ставим координату головы
 		
-		this.field[15][15] = 1;	// спавним голову
+		
+		this.field[14][14] = 1;	// спавним голову
+		this.field[14][15] = 2;
+		this.field[14][16] = 3;
+		
+		this.length = 3;
+		
+		this.gX = this.gY = 14;	// ставим координату головы
+		
+		this.endGame = false;
 		
 		generateFeed();	// создаем еду
 		
+		
+		
+	}
+	
+	public void move(){
+		int flag = moveHead();
+		
+		if(flag == 3) endGame = true;
+		
+		for(int i=0; i<30; i++){
+			for(int j=0; j<30; j++){
+				if(field[i][j]>0) field[i][j]++;
+				else if(field[i][j] == -2) field[i][j] = 1;
+				
+				if(flag!=1){
+					if(field[i][j] == (length+1)) field[i][j] = 0;
+				}
+			}
+		}
+		
+		if (flag == 1){
+			length++;
+			generateFeed();
+			score+=10;
+		}
+		turn();
 	}
 	
 	/**
 	 * Перемещает голову змейки по игровому полю
 	 */
-	public void moveHead(){
-		this.field[gX][gY] = 0;	// сразу удаляем голову с текущего положения
-		
-		
+	public int moveHead(){
 		switch(direction){	// и в зависимости от направления меняем координаты
 			case 0:	// для движения влево
 				// если упираемся в границу экрана, переносим голову в правый край
@@ -77,12 +121,15 @@ public class GameLogic {
 				break;
 		}
 		
-		if(field[gY][gX]==-1){	// если голова змейки "наехала" на еду
-			generateFeed();	// создаем новую еду
-			score+=10;		// и добавляем очки
-		}
+		int result = 0;
 		
-		field[gY][gX] = 1;	// и ставим в полученные координаты голову
+		if(field[gY][gX]==-1) result = 1;
+		else if(field[gY][gX]==0) result = 2;
+		else if(field[gY][gX]>0) result = 3;
+		
+		field[gY][gX]= -2;
+		
+		return result;
 		
 	}
 	
@@ -104,7 +151,7 @@ public class GameLogic {
 	 * @return
 	 */
 	public int getValue(int col, int row){
-		return this.field[col][row];
+		return this.field[row][col];
 	}
 	
 	/**
@@ -112,7 +159,7 @@ public class GameLogic {
 	 * @param dir
 	 */
 	public void setDirection(int dir){
-		direction = dir>=0 && dir<=3 ? dir : direction;
+		newDirection = dir;
 	}
 	
 	/**

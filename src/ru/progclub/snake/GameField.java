@@ -27,16 +27,16 @@ public class GameField extends JPanel {
 			
 			switch(e.getKeyCode()){
 			case KeyEvent.VK_LEFT:
-				game.setDirection(1);
-				break;
-			case KeyEvent.VK_UP:
 				game.setDirection(0);
 				break;
+			case KeyEvent.VK_UP:
+				game.setDirection(1);
+				break;
 			case KeyEvent.VK_RIGHT:
-				game.setDirection(3);
+				game.setDirection(2);
 				break;
 			case KeyEvent.VK_DOWN:
-				game.setDirection(2);
+				game.setDirection(3);
 			}
 		}
 
@@ -49,15 +49,18 @@ public class GameField extends JPanel {
 	
 	
 	public GameField(){
+		gFld = this;
 		loadResources(); // загружаем спрайты и иные ресурсы
+		
+		// добавляем наш обработчик клавиатуры
+		this.addKeyListener(new myKeyLs());
+		this.setFocusable(true);
 		
 		// инициализируем переменную game и запускаем игровую логику		
 		game = new GameLogic();
 		game.start();
 		
-		// добавляем наш обработчик клавиатуры
-		this.addKeyListener(new myKeyLs());
-		this.setFocusable(true);
+		
 		
 		
 		//создаем и запускаем таймер отрисовки
@@ -70,7 +73,7 @@ public class GameField extends JPanel {
 		
 		// создаем надпись с очками
 				lbScore = new JLabel("Счет: -");	// инициализируем и заполняем начальное значение
-				lbScore.setForeground(Color.WHITE);	// устанавливаем фон
+				lbScore.setForeground(Color.BLACK);	// устанавливаем фон
 				lbScore.setFont(new Font("serif", 0, 30));	// шрифт
 				lbScore.setBounds(630, 200, 150, 50);	// куда расположится и размер
 				add(lbScore); // добавляем надпись к полотну
@@ -80,7 +83,10 @@ public class GameField extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				game.moveHead();
+				if(!game.endGame){
+					game.move();
+				}
+				
 				lbScore.setText("Счет: "+game.getScore());
 			}
 			
@@ -90,7 +96,7 @@ public class GameField extends JPanel {
 		setLayout(null);
 		
 		
-		gFld = this;
+		
 		
 		
 		// кнопка новой игры
@@ -171,10 +177,11 @@ public class GameField extends JPanel {
 					if(game.getValue(j, i) == 1){
 						// рисуем голову
 						gr.drawImage(head, 10+j*20, 10+i*20, 20, 20, null);
-					}
-					else if(game.getValue(j, i) == -1){
+					} else if(game.getValue(j, i) == -1){
 						// рисуем еду
 						gr.drawImage(feed, 10+j*20, 10+i*20, 20, 20, null);
+					} else if(game.getValue(j, i) > 1){
+						gr.drawImage(body, 10+j*20, 10+i*20, 20, 20, null);
 					}
 				}				
 			}
@@ -184,6 +191,10 @@ public class GameField extends JPanel {
 			// этим циклом рисуем сетку на игровом поле
 			gr.drawLine(10+i*20, 10, 10+i*20, 610);
 			gr.drawLine(10, 10+i*20, 610, 10+i*20);
+		}
+		
+		if(game.endGame){
+			gr.drawImage(gameOver, 250, 200, 200, 100, null);
 		}
 	}
 
